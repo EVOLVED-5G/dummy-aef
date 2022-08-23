@@ -1,0 +1,51 @@
+
+version: '3'
+
+services:
+  redis:
+    image: 'redis:latest'
+  python_aef:
+    image: python_aef
+    container_name: python_aef
+    build:
+      context: ./pythonaef
+    volumes:
+      - ./pythonaef:/usr/src/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  web_aef:
+    image: web_aef
+    container_name: web_aef
+    build:
+      context: ./webaef
+    ports:
+      - 80:80
+  nef_callback_server:
+    build:
+      context: ./nef_callback_server
+    ports:
+      - 8085:8080
+    volumes:
+      - ./nef_callback_server:/usr/src/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  capif_callback_server:
+    build:
+      context: ./capif_callback_server
+    ports:
+      - 8086:8080
+    volumes:
+      - ./capif_callback_server:/usr/src/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    extra_hosts:
+      - host.docker.internal:host-gateway
