@@ -147,10 +147,11 @@ if __name__ == '__main__':
     description = config.get("credentials", "exposer_description")
     cn = config.get("credentials", "exposer_cn")
 
-    # capif_ip = config.get("credentials", "capif_ip")
+    capif_ip = config.get("credentials", "capif_ip")
     # capif_port = config.get("credentials", "capif_port")
-    capif_ip = os.getenv('CAPIF_HOSTNAME')
+    #capif_ip = os.getenv('CAPIF_HOSTNAME')
     capif_port = os.getenv('CAPIF_PORT')
+    
 
     try:
         if not r.exists('exposerID'):
@@ -159,7 +160,7 @@ if __name__ == '__main__':
             r.set('ccf_publish_url', ccf_publish_url)
             print("exposer ID: {}".format(exposerID))
     except Exception as e:
-        status_code = e.args[1]
+        status_code = e.args[0]
         if status_code == 409:
             print("User already registed. Continue with token request\n")
         else:
@@ -171,7 +172,7 @@ if __name__ == '__main__':
             r.set('capif_access_token_exposer', capif_access_token)
             print("Capif Token: {}".format(capif_access_token))
     except Exception as e:
-        status_code = e.args[1]
+        status_code = e.args[0]
         if status_code == 401:
             print("Bad credentials. User not found\n")
         else:
@@ -194,7 +195,7 @@ if __name__ == '__main__':
             r.set('serviceapiid'+str(services_num), service_api_id)
             print("Service Api Id: {}".format(service_api_id))
     except Exception as e:
-        status_code = e.args[1]
+        status_code = e.args[0]
         if status_code == 401:
             message = e.args[0]
             if str(message).find("Token has expired") != -1:

@@ -4,14 +4,14 @@ version: '3'
 services:
   redis:
     image: 'redis:latest'
-  python_exposer:
-    image: python_exposer
+  python_aef:
+    image: python_aef
     hostname: exposer
-    container_name: python_exposer
+    container_name: python_aef
     build:
-      context: ./pythonexposer
+      context: ./python_aef
     volumes:
-      - ./pythonexposer:/usr/src/app
+      - ./python_aef:/usr/src/app
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -21,25 +21,6 @@ services:
       - CAPIF_PORT=8080
     depends_on:
       - redis
-    extra_hosts:
-      - host.docker.internal:host-gateway
-  web_netapp:
-    image: web_netapp
-    container_name: web_netapp
-    build:
-      context: ./webnetapp
-    ports:
-      - 80:80
-  nef_callback_server:
-    build:
-      context: ./nef_callback_server
-    ports:
-      - 8085:8080
-    volumes:
-      - ./nef_callback_server:/usr/src/app
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
     extra_hosts:
       - host.docker.internal:host-gateway
   capif_callback_server:
