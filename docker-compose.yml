@@ -4,25 +4,30 @@ version: '3'
 services:
   redis:
     image: 'redis:latest'
-  python_aef:
-    image: python_aef
-    container_name: python_aef
+  python_exposer:
+    image: python_exposer
+    hostname: exposer
+    container_name: python_exposer
     build:
-      context: ./pythonaef
+      context: ./pythonexposer
     volumes:
-      - ./pythonaef:/usr/src/app
+      - ./pythonexposer:/usr/src/app
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - REQUESTS_CA_BUNDLE=/usr/src/app/ca.crt
+      - SSL_CERT_FILE=/usr/src/app/ca.crt
+      - CAPIF_HOSTNAME=${CAPIF_HOSTNAME}
+      - CAPIF_PORT=8080
     depends_on:
       - redis
     extra_hosts:
       - host.docker.internal:host-gateway
-  web_aef:
-    image: web_aef
-    container_name: web_aef
+  web_netapp:
+    image: web_netapp
+    container_name: web_netapp
     build:
-      context: ./webaef
+      context: ./webnetapp
     ports:
       - 80:80
   nef_callback_server:

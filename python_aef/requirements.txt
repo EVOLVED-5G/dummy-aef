@@ -1,4 +1,4 @@
 requests
 configparser
 redis
-evolved5g
+pyopenssl
