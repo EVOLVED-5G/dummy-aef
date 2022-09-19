@@ -2,3 +2,5 @@ requests
 configparser
 redis
 pyopenssl
+Flask == 2.0.3
+flask_jwt_extended
