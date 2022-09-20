@@ -27,7 +27,7 @@ context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 context.verify_mode = ssl.CERT_REQUIRED
 context.check_hostname=False
 ssl._create_default_https_context = ssl._create_unverified_context
-context.load_verify_locations("ca.crt")
+context.load_verify_locations(capath="./valid_ca/")
 context.load_cert_chain("domain.crt", "domain.key")
 
 
