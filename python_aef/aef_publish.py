@@ -102,9 +102,9 @@ if __name__ == '__main__':
     description = config.get("credentials", "exposer_description")
     cn = config.get("credentials", "exposer_cn")
     
-    capif_ip = config.get("credentials", "capif_ip")
+    # capif_ip = config.get("credentials", "capif_ip")
     # capif_port = config.get("credentials", "capif_port")
-    #capif_ip = os.getenv('CAPIF_HOSTNAME')
+    capif_ip = os.getenv('CAPIF_HOSTNAME')
     capif_port = os.getenv('CAPIF_PORT')
 #Third publish service in CAPIF
     try:
