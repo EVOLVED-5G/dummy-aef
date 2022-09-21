@@ -1,6 +1,4 @@
-openssl req \
-      -newkey rsa:4096 -nodes -sha256 -keyout domain.key \
-      -x509 -days 365 -out domain.crt
+
 
 echo "$CAPIF_HOSTNAME"
 
@@ -19,7 +17,7 @@ COMPANY=""                  # company name
 
 # create the certificate request
 #cat <<__EOF__ | openssl req -new $DAYS -nodes -keyout client.key -out client.csr
-cat <<__EOF__ | openssl req -new $DAYS -key server.key -out server.csr
+cat <<__EOF__ | openssl req -newkey rsa:4096 -nodes -sha256 -keyout domain.key -x509 -days 365 -out domain.crt
 $COUNTRY
 $STATE
 $LOCALITY
