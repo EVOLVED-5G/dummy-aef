@@ -138,7 +138,8 @@ if __name__ == '__main__':
 
     #Remove data from Redis
     keys = r.keys('*')
-    r.delete(*keys)
+    if len(keys) != 0:
+        r.delete(*keys)
 
 
     config = configparser.ConfigParser()
