@@ -6,7 +6,7 @@ services:
     image: 'redis:latest'
     networks:
       - demo-network
-  python_aef:
+  python-aef:
     image: python_aef
     networks:
       - demo-network

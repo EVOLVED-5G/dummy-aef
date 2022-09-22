@@ -37,12 +37,12 @@
         "securityMethods": ["Oauth", "PSK"],
         "interfaceDescriptions": [
           {
-            "ipv4Addr": "python_aef",
+            "ipv4Addr": "python-aef",
             "port": 8086,
             "securityMethods": ["Oauth"]
           },
           {
-            "ipv4Addr": "python_aef",
+            "ipv4Addr": "python-aef",
             "port": 8085,
             "securityMethods": ["PSK"]
           }
