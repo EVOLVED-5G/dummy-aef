@@ -3,6 +3,7 @@ import json
 import configparser
 import os
 import redis
+from termcolor import colored
 
 # Get environment variables
 REDIS_HOST = os.getenv('REDIS_HOST')
@@ -23,11 +24,11 @@ def get_capif_auth(capif_ip, capif_port, username, password, role):
     }
 
     try:
-        print("''''''''''REQUEST'''''''''''''''''")
-        print("Request: to ",url) 
-        print("Request Headers: ",  headers) 
-        print("Request Body: ", json.dumps(payload))
-        print("''''''''''REQUEST'''''''''''''''''")
+        print(colored("''''''''''REQUEST'''''''''''''''''","blue"))
+        print(colored(f"Request: to {url}","blue"))
+        print(colored(f"Request Headers: {headers}", "blue"))
+        print(colored(f"Request Body: {json.dumps(payload)}", "blue"))
+        print(colored(f"''''''''''REQUEST'''''''''''''''''", "blue"))
 
         response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
 
@@ -40,20 +41,20 @@ def get_capif_auth(capif_ip, capif_port, username, password, role):
         certification_file.close()
         private_key_file.close()
 
-        print("''''''''''RESPONSE'''''''''''''''''")
-        print("Response to: ",response.url) 
-        print("Response Headers: ",  response.headers) 
-        print("Response: ", response.json())
-        print("Response Status code: ", response.status_code)
-        print("Get AUTH Success. Created private key and cert file ")
-        print("''''''''''RESPONSE'''''''''''''''''")
+        print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
+        print(colored(f"Response to: {response.url}","green"))
+        print(colored(f"Response Headers: {response.headers}","green"))
+        print(colored(f"Response: {response.json()}","green"))
+        print(colored(f"Response Status code: {response.status_code}","green"))
+        print(colored("Get AUTH Success. Created private key and cert file ","green"))
+        print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
         return
     except requests.exceptions.HTTPError as err:
         raise Exception(err.response.text, err.response.status_code)
 
 def publish_service_api_to_capif(capif_ip, ccf_url):
 
-    print("Publishing api service to CAPIF")
+    print(colored("Publishing api service to CAPIF","yellow"))
 
     url = 'https://{}/{}'.format(capif_ip, ccf_url)
     payload = open('service_api_description.json', 'rb')
@@ -62,23 +63,22 @@ def publish_service_api_to_capif(capif_ip, ccf_url):
     }
 
     try:
-        print("''''''''''REQUEST'''''''''''''''''")
-        print("Request: to ",url) 
-        print("Request Headers: ",  headers) 
-        #print("Request Body: ", payload)
-        print("''''''''''REQUEST'''''''''''''''''")
+        print(colored("''''''''''REQUEST'''''''''''''''''","blue"))
+        print(colored(f"Request: to {url}","blue"))
+        print(colored(f"Request Headers: {headers}", "blue"))
+        print(colored(f"''''''''''REQUEST'''''''''''''''''", "blue"))
 
         response = requests.request("POST", url, headers=headers, data=payload, cert=('exposer.crt', 'private.key'), verify='ca.crt')
         response.raise_for_status()
         response_payload = json.loads(response.text)
 
-        print("''''''''''RESPONSE'''''''''''''''''")
-        print("Response to: ",response.url) 
-        print("Response Headers: ",  response.headers) 
-        print("Response: ", response.json())
-        print("Response Status code: ", response.status_code)
-        print("Success, registered api service to CAPIF")
-        print("''''''''''RESPONSE'''''''''''''''''")
+        print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
+        print(colored(f"Response to: {response.url}","green"))
+        print(colored(f"Response Headers: {response.headers}","green"))
+        print(colored(f"Response: {response.json()}","green"))
+        print(colored(f"Response Status code: {response.status_code}","green"))
+        print(colored("Success, registered api service to CAPIF","green"))
+        print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
         return response_payload['apiId']
     except requests.exceptions.HTTPError as err:
         message = json.loads(err.response.text)
@@ -120,7 +120,7 @@ if __name__ == '__main__':
             services_num += 1
             r.set('services_num', services_num)
             r.set('serviceapiid'+str(services_num), service_api_id)
-            print("Service Api Id: {}".format(service_api_id))
+            print(colored(f"Service Api Id: {service_api_id}","yellow"))
     except Exception as e:
         status_code = e.args[0]
         if status_code == 401:

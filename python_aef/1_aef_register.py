@@ -4,6 +4,7 @@ import json
 import configparser
 import os
 import redis
+from termcolor import colored
 
 # Get environment variables
 REDIS_HOST = os.getenv('REDIS_HOST')
@@ -12,7 +13,8 @@ REDIS_PORT = os.environ.get('REDIS_PORT')
 
 def register_exposer_to_capif(capif_ip, capif_port, username, password, role, description, cn):
 
-    print("Registering exposer to CAPIF")
+    
+    print(colored("Registering exposer to CAPIF","yellow"))
     url = "http://{}:{}/register".format(capif_ip, capif_port)
 
     payload = dict()
@@ -27,21 +29,21 @@ def register_exposer_to_capif(capif_ip, capif_port, username, password, role, de
     }
 
     try:
-        print("''''''''''REQUEST'''''''''''''''''")
-        print("Request: to ",url) 
-        print("Request Headers: ",  headers) 
-        print("Request Body: ", json.dumps(payload))
-        print("''''''''''REQUEST'''''''''''''''''")
+        print(colored("''''''''''REQUEST'''''''''''''''''","blue"))
+        print(colored(f"Request: to {url}","blue"))
+        print(colored(f"Request Headers: {headers}", "blue"))
+        print(colored(f"Request Body: {json.dumps(payload)}", "blue"))
+        print(colored(f"''''''''''REQUEST'''''''''''''''''", "blue"))
         response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
         response.raise_for_status()
         response_payload = json.loads(response.text)
-        print("''''''''''RESPONSE'''''''''''''''''")
-        print("Response to: ",response.url) 
-        print("Response Headers: ",  response.headers) 
-        print("Response: ", response.json())
-        print("Response Status code: ", response.status_code)
-        print("Success to register new exposer")
-        print("''''''''''RESPONSE'''''''''''''''''")
+        print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
+        print(colored(f"Response to: {response.url}","green"))
+        print(colored(f"Response Headers: {response.headers}","green"))
+        print(colored(f"Response: {response.json()}","green"))
+        print(colored(f"Response Status code: {response.status_code}","green"))
+        print(colored("Success to register new exposer","green"))
+        print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
         return response_payload['id'], response_payload['ccf_publish_url'], response_payload['ccf_api_onboarding_url']
     except requests.exceptions.HTTPError as err:
         raise Exception(err.response.text, err.response.status_code)
@@ -49,7 +51,7 @@ def register_exposer_to_capif(capif_ip, capif_port, username, password, role, de
 
 def get_capif_auth(capif_ip, capif_port, username, password, role):
 
-    print("Geting Auth to exposer")
+    print(colored("Geting Auth to exposer","yellow"))
     url = "http://{}:{}/getauth".format(capif_ip, capif_port)
 
     payload = dict()
@@ -62,11 +64,11 @@ def get_capif_auth(capif_ip, capif_port, username, password, role):
     }
 
     try:
-        print("''''''''''REQUEST'''''''''''''''''")
-        print("Request: to ",url) 
-        print("Request Headers: ",  headers) 
-        print("Request Body: ", json.dumps(payload))
-        print("''''''''''REQUEST'''''''''''''''''")
+        print(colored("''''''''''REQUEST'''''''''''''''''","blue"))
+        print(colored(f"Request: to {url}","blue"))
+        print(colored(f"Request Headers: {headers}", "blue"))
+        print(colored(f"Request Body: {json.dumps(payload)}", "blue"))
+        print(colored(f"''''''''''REQUEST'''''''''''''''''", "blue"))
 
         response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
 
@@ -79,46 +81,49 @@ def get_capif_auth(capif_ip, capif_port, username, password, role):
         certification_file.close()
         private_key_file.close()
 
-        print("''''''''''RESPONSE'''''''''''''''''")
-        print("Response to: ",response.url) 
-        print("Response Headers: ",  response.headers) 
-        print("Response: ", response.json())
-        print("Response Status code: ", response.status_code)
-        print("Get AUTH Success. Created private key and cert file ")
-        print("''''''''''RESPONSE'''''''''''''''''")
-        return
+        print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
+        print(colored(f"Response to: {response.url}","green"))
+        print(colored(f"Response Headers: {response.headers}","green"))
+        print(colored(f"Response: {response.json()}","green"))
+        print(colored(f"Response Status code: {response.status_code}","green"))
+        print(colored("Get AUTH Success. Created private key and cert file", "green"))
+        print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
+        return response_payload['cert']
     except requests.exceptions.HTTPError as err:
         raise Exception(err.response.text, err.response.status_code)
 
-def register_api_provider_to_capif(capif_ip, ccf_url):
+def register_api_provider_to_capif(capif_ip, ccf_url, cert):
 
-    print("Registering api provider to CAPIF")
+    print(colored("Registering api provider to CAPIF","yellow"))
 
     url = 'https://{}/{}'.format(capif_ip, ccf_url)
-    payload = open('api_provider_domain.json', 'rb')
+    #payload = open('api_provider_domain.json', 'rb')
+    with open('api_provider_domain.json') as json_file:
+        payload = json.load(json_file)
+        payload["regSec"]=cert
+
     headers = {
         'Content-Type': 'application/json'
     }
 
     try:
 
-        print("''''''''''REQUEST'''''''''''''''''")
-        print("Request: to ",url) 
-        print("Request Headers: ",  headers) 
-        #print("Request Body: ", json.dumps(payload))
-        print("''''''''''REQUEST'''''''''''''''''")
+        print(colored("''''''''''REQUEST'''''''''''''''''","blue"))
+        print(colored(f"Request: to {url}","blue"))
+        print(colored(f"Request Headers: {headers}", "blue"))
+        print(colored(f"''''''''''REQUEST'''''''''''''''''", "blue"))
 
-        response = requests.request("POST", url, headers=headers, data=payload, cert=('exposer.crt', 'private.key'), verify='ca.crt')
+        response = requests.request("POST", url, headers=headers, data=json.dumps(payload), cert=('exposer.crt', 'private.key'), verify='ca.crt')
         response.raise_for_status()
         response_payload = json.loads(response.text)
 
-        print("''''''''''RESPONSE'''''''''''''''''")
-        print("Response to: ",response.url) 
-        print("Response Headers: ",  response.headers) 
-        print("Response: ", response.json())
-        print("Response Status code: ", response.status_code)
-        print("Success, registered api provider domain to CAPIF")
-        print("''''''''''RESPONSE'''''''''''''''''")
+        print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
+        print(colored(f"Response to: {response.url}","green"))
+        print(colored(f"Response Headers: {response.headers}","green"))
+        print(colored(f"Response: {response.json()}","green"))
+        print(colored(f"Response Status code: {response.status_code}","green"))
+        print(colored("Success, registered api provider domain to CAPIF","green"))
+        print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
         return response_payload['apiProvDomId']
     except requests.exceptions.HTTPError as err:
         message = json.loads(err.response.text)
@@ -129,6 +134,7 @@ def register_api_provider_to_capif(capif_ip, ccf_url):
 
 
 if __name__ == '__main__':
+
 
     r = redis.Redis(
         host=REDIS_HOST,
@@ -141,6 +147,8 @@ if __name__ == '__main__':
     if len(keys) != 0:
         r.delete(*keys)
 
+    #to init colours
+    #init()
 
     config = configparser.ConfigParser()
     config.read('credentials.properties')
@@ -150,12 +158,12 @@ if __name__ == '__main__':
     role = config.get("credentials", "exposer_role")
     description = config.get("credentials", "exposer_description")
     cn = config.get("credentials", "exposer_cn")
-    
+
     # capif_ip = config.get("credentials", "capif_ip")
     # capif_port = config.get("credentials", "capif_port")
     capif_ip = os.getenv('CAPIF_HOSTNAME')
     capif_port = os.getenv('CAPIF_PORT')
-    
+
     #First we need register exposer in CAPIF
     try:
         if not r.exists('exposerID'):
@@ -163,7 +171,7 @@ if __name__ == '__main__':
             r.set('exposerID', exposerID)
             r.set('ccf_publish_url', ccf_publish_url)
             r.set('ccf_api_onboarding_url', ccf_api_onboarding_url)
-            print("exposer ID: {}".format(exposerID))
+            print(colored(f"exposer ID:{exposerID}", "yellow"))
     except Exception as e:
         status_code = e.args[0]
         if status_code == 409:
@@ -173,12 +181,13 @@ if __name__ == '__main__':
 
     #Second, we need get auth, in this case create cert and private key file
     try:
-        get_capif_auth(capif_ip, capif_port, username, password, role)
+        cert = get_capif_auth(capif_ip, capif_port, username, password, role)
+        r.set('aef_cert', cert)
 
     except Exception as e:
         status_code = e.args[0]
         if status_code == 401:
-            print("Bad credential or User not found\n")
+            print(colored("Bad credential or User not found\n", "red"))
         else:
             print(e)
         capif_access_token = None
@@ -190,9 +199,10 @@ if __name__ == '__main__':
             ccf_publish_url = r.get('ccf_publish_url')
             capif_access_token = r.get('capif_access_token_exposer')
             ccf_api_onboarding_url = r.get('ccf_api_onboarding_url')
-            api_prov_dom_id = register_api_provider_to_capif(capif_ip, ccf_api_onboarding_url)
+            aef_cert = r.get("aef_cert")
+            api_prov_dom_id = register_api_provider_to_capif(capif_ip, ccf_api_onboarding_url, aef_cert)
     
-            print("API provider domain Id: {}".format(api_prov_dom_id))
+            print(colored(f"API provider domain Id: {api_prov_dom_id}","yellow"))
     except Exception as e:
         status_code = e.args[0]
         if status_code == 401:

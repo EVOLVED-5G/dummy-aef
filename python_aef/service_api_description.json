@@ -40,11 +40,6 @@
             "ipv4Addr": "python-aef",
             "port": 8086,
             "securityMethods": ["Oauth"]
-          },
-          {
-            "ipv4Addr": "python-aef",
-            "port": 8085,
-            "securityMethods": ["PSK"]
           }
         ]
       }
