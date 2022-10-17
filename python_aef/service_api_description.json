@@ -1,6 +1,6 @@
 
 {
-    "apiName": "3gpp-session-with-qos",
+    "apiName": "dummy-aef",
     "aefProfiles": [
       {
         "aefId": "string",
@@ -10,12 +10,12 @@
             "expiry": "2021-11-30T10:32:02.004Z",
             "resources": [
               {
-                "resourceName": "string",
+                "resourceName": "hello-endpoint",
                 "commType": "REQUEST_RESPONSE",
-                "uri": "string",
+                "uri": "/hello",
                 "custOpName": "string",
                 "operations": [
-                  "GET"
+                  "POST"
                 ],
                 "description": "string"
               }
@@ -25,7 +25,7 @@
                 "commType": "REQUEST_RESPONSE",
                 "custOpName": "string",
                 "operations": [
-                  "GET"
+                  "POST"
                 ],
                 "description": "string"
               }
@@ -34,68 +34,17 @@
         ],
         "protocol": "HTTP_1_1",
         "dataFormat": "JSON",
-        "securityMethods": ["PSK"],
+        "securityMethods": ["Oauth", "PSK"],
         "interfaceDescriptions": [
           {
-            "ipv4Addr": "string",
-            "port": 65535,
-            "securityMethods": ["PSK"]
-          },
-          {
-            "ipv4Addr": "string",
-            "port": 65535,
-            "securityMethods": ["PSK"]
-          }
-        ]
-      },
-      {
-        "aefId": "string",
-        "versions": [
-          {
-            "apiVersion": "v1",
-            "expiry": "2021-11-30T10:32:02.004Z",
-            "resources": [
-              {
-                "resourceName": "string",
-                "commType": "REQUEST_RESPONSE",
-                "uri": "string",
-                "custOpName": "string",
-                "operations": [
-                  "GET"
-                ],
-                "description": "string"
-              }
-            ],
-            "custOperations": [
-              {
-                "commType": "REQUEST_RESPONSE",
-                "custOpName": "string",
-                "operations": [
-                  "GET"
-                ],
-                "description": "string"
-              }
-            ]
-          }
-        ],
-        "protocol": "HTTP_1_1",
-        "dataFormat": "JSON",
-        "securityMethods": ["PSK"],
-        "interfaceDescriptions": [
-          {
-            "ipv4Addr": "string",
-            "port": 65535,
-            "securityMethods": ["PSK"]
-          },
-          {
-            "ipv4Addr": "string",
-            "port": 65535,
-            "securityMethods": ["PSK"]
+            "ipv4Addr": "python_aef",
+            "port": 8086,
+            "securityMethods": ["Oauth"]
           }
         ]
       }
     ],
-    "description": "string",
+    "description": "API of dummy netapp to test",
     "supportedFeatures": "fffff",
     "shareableInfo": {
       "isShareable": true,
