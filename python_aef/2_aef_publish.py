@@ -55,7 +55,7 @@ def publish_service_api_to_capif(capif_ip, ccf_url):
 
     print("Publishing api service to CAPIF")
 
-    url = 'https://{}/{}'.format(capif_ip, ccf_url)
+    url = 'https://{}/published-apis/v1/ba3376a15e4a0a025050124ac52cfa/service-apis'.format(capif_ip, ccf_url)
     payload = open('service_api_description.json', 'rb')
     headers = {
         'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ def publish_service_api_to_capif(capif_ip, ccf_url):
         #print("Request Body: ", payload)
         print("''''''''''REQUEST'''''''''''''''''")
 
-        response = requests.request("POST", url, headers=headers, data=payload, cert=('exposer.crt', 'private.key'), verify='ca.crt')
+        response = requests.request("POST", url, headers=headers, data=payload, cert=('APF_dummy.crt', 'APF_private_key.key'), verify='ca.crt')
         response.raise_for_status()
         response_payload = json.loads(response.text)
 
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     capif_port = os.getenv('CAPIF_PORT')
 #Third publish service in CAPIF
     try:
-        if r.exists('exposerID'):
+        if r.exists('apf_id'):
             ccf_publish_url = r.get('ccf_publish_url')
             capif_access_token = r.get('capif_access_token_exposer')
             service_api_id = publish_service_api_to_capif(capif_ip, ccf_publish_url)

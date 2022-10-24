@@ -3,7 +3,7 @@
     "apiName": "dummy-aef",
     "aefProfiles": [
       {
-        "aefId": "string",
+        "aefId": "ec2b554166ca9c7b6c75250956f302",
         "versions": [
           {
             "apiVersion": "v1",
