@@ -2,10 +2,6 @@
 version: '3'
 
 services:
-  redis:
-    image: 'redis:latest'
-    networks:
-      - demo-network
   python-aef:
     image: python_aef
     networks:
@@ -23,8 +19,6 @@ services:
       - SSL_CERT_FILE=/usr/src/app/ca.crt
       - CAPIF_HOSTNAME=${CAPIF_HOSTNAME}
       - CAPIF_PORT=8080
-    depends_on:
-      - redis
     extra_hosts:
       - host.docker.internal:host-gateway
   capif_callback_server:

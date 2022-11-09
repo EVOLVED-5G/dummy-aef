@@ -3,11 +3,10 @@ import requests
 import json
 import configparser
 import os
-import redis
+from termcolor import colored
 
 # Get environment variables
-REDIS_HOST = os.getenv('REDIS_HOST')
-REDIS_PORT = os.environ.get('REDIS_PORT')
+
 
 from OpenSSL.SSL import FILETYPE_PEM
 from OpenSSL.crypto import (dump_certificate_request, dump_privatekey, load_publickey, PKey, TYPE_RSA, X509Req, dump_publickey)
@@ -36,11 +35,7 @@ def create_csr(name):
 
 def register_exposer_to_capif(capif_ip, capif_port, username, password, role, description, cn):
 
-<<<<<<< Updated upstream
-    print("Registering exposer to CAPIF")
-=======
     print(colored("Registering exposer to CAPIF","yellow"))
->>>>>>> Stashed changes
     url = "http://{}:{}/register".format(capif_ip, capif_port)
 
     payload = dict()
@@ -55,23 +50,6 @@ def register_exposer_to_capif(capif_ip, capif_port, username, password, role, de
     }
 
     try:
-<<<<<<< Updated upstream
-        print("''''''''''REQUEST'''''''''''''''''")
-        print("Request: to ",url) 
-        print("Request Headers: ",  headers) 
-        print("Request Body: ", json.dumps(payload))
-        print("''''''''''REQUEST'''''''''''''''''")
-        response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
-        response.raise_for_status()
-        response_payload = json.loads(response.text)
-        print("''''''''''RESPONSE'''''''''''''''''")
-        print("Response to: ",response.url) 
-        print("Response Headers: ",  response.headers) 
-        print("Response: ", response.json())
-        print("Response Status code: ", response.status_code)
-        print("Success to register new exposer")
-        print("''''''''''RESPONSE'''''''''''''''''")
-=======
         print(colored("''''''''''REQUEST'''''''''''''''''","blue"))
         print(colored(f"Request: to {url}","blue"))
         print(colored(f"Request Headers: {headers}", "blue"))
@@ -89,7 +67,6 @@ def register_exposer_to_capif(capif_ip, capif_port, username, password, role, de
         print(colored(f"Response Status code: {response.status_code}","green"))
         print(colored("Success to register new exposer","green"))
         print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
->>>>>>> Stashed changes
         return response_payload['id'], response_payload['ccf_publish_url'], response_payload['ccf_api_onboarding_url']
     except requests.exceptions.HTTPError as err:
         raise Exception(err.response.text, err.response.status_code)
@@ -119,27 +96,7 @@ def get_capif_auth(capif_ip, capif_port, username, password):
 
         response.raise_for_status()
         response_payload = json.loads(response.text)
-        # certification_file = open('exposer.crt', 'wb+')
-        # private_key_file = open("private.key", 'wb+')
-        # certification_file.write(bytes(response_payload['cert'], 'utf-8'))
-        # private_key_file.write(bytes(response_payload['private_key'], 'utf-8'))
-        # certification_file.close()
-        # private_key_file.close()
 
-<<<<<<< Updated upstream
-        print("''''''''''RESPONSE'''''''''''''''''")
-        print("Response to: ",response.url) 
-        print("Response Headers: ",  response.headers) 
-        print("Response: ", response.json())
-        print("Response Status code: ", response.status_code)
-        print("Get AUTH Success. Created private key and cert file ")
-        print("''''''''''RESPONSE'''''''''''''''''")
-        return
-    except requests.exceptions.HTTPError as err:
-        raise Exception(err.response.text, err.response.status_code)
-
-def register_api_provider_to_capif(capif_ip, ccf_url):
-=======
         print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
         print(colored(f"Response to: {response.url}","green"))
         print(colored(f"Response Headers: {response.headers}","green"))
@@ -152,15 +109,10 @@ def register_api_provider_to_capif(capif_ip, ccf_url):
         raise Exception(err.response.text, err.response.status_code)
 
 def register_api_provider_to_capif(capif_ip, ccf_url, access_token):
->>>>>>> Stashed changes
 
     print("Registering api provider to CAPIF")
 
     url = 'https://{}/{}'.format(capif_ip, ccf_url)
-<<<<<<< Updated upstream
-    payload = open('api_provider_domain.json', 'rb')
-=======
-    #payload = open('api_provider_domain.json', 'rb')
     json_file = open('api_provider_domain.json', "rb")
     payload_dict = json.load(json_file)
     payload_dict["regSec"]=access_token
@@ -174,7 +126,6 @@ def register_api_provider_to_capif(capif_ip, ccf_url, access_token):
 
     payload = json.dumps(payload_dict)
 
->>>>>>> Stashed changes
     headers = {
         'Authorization': 'Bearer {}'.format(access_token),
         'Content-Type': 'application/json'
@@ -182,26 +133,12 @@ def register_api_provider_to_capif(capif_ip, ccf_url, access_token):
 
     try:
 
-        print("''''''''''REQUEST'''''''''''''''''")
-        print("Request: to ",url) 
-        print("Request Headers: ",  headers) 
-        #print("Request Body: ", json.dumps(payload))
-        print("''''''''''REQUEST'''''''''''''''''")
+        print(colored("''''''''''REQUEST'''''''''''''''''","blue"))
+        print(colored(f"Request: to {url}","blue"))
+        print(colored(f"Request Headers: {headers}", "blue"))
+        print(colored(f"''''''''''REQUEST'''''''''''''''''", "blue"))
 
-<<<<<<< Updated upstream
-        response = requests.request("POST", url, headers=headers, data=payload, cert=('exposer.crt', 'private.key'), verify='ca.crt')
-        response.raise_for_status()
-        response_payload = json.loads(response.text)
 
-        print("''''''''''RESPONSE'''''''''''''''''")
-        print("Response to: ",response.url) 
-        print("Response Headers: ",  response.headers) 
-        print("Response: ", response.json())
-        print("Response Status code: ", response.status_code)
-        print("Success, registered api provider domain to CAPIF")
-        print("''''''''''RESPONSE'''''''''''''''''")
-        return response_payload['apiProvDomId']
-=======
         response = requests.request("POST", url, headers=headers, data=payload, verify='ca.crt')
         response.raise_for_status()
         response_payload = json.loads(response.text)
@@ -222,7 +159,6 @@ def register_api_provider_to_capif(capif_ip, ccf_url, access_token):
             certification_file.close()
 
         return response_payload
->>>>>>> Stashed changes
     except requests.exceptions.HTTPError as err:
         message = json.loads(err.response.text)
         status = err.response.status_code
@@ -232,12 +168,6 @@ def register_api_provider_to_capif(capif_ip, ccf_url, access_token):
 
 
 if __name__ == '__main__':
-
-    r = redis.Redis(
-        host=REDIS_HOST,
-        port=REDIS_PORT,
-        decode_responses=True,
-    )
 
     config = configparser.ConfigParser()
     config.read('credentials.properties')
@@ -252,15 +182,21 @@ if __name__ == '__main__':
     # capif_port = config.get("credentials", "capif_port")
     capif_ip = os.getenv('CAPIF_HOSTNAME')
     capif_port = os.getenv('CAPIF_PORT')
-    
+
+
+    if os.path.exists("demo_values.json"):
+        os.remove("demo_values.json")
+
+    demo_values = {}
+
     #First we need register exposer in CAPIF
     try:
-        if not r.exists('exposerID'):
-            exposerID, ccf_publish_url, ccf_api_onboarding_url = register_exposer_to_capif(capif_ip, capif_port, username, password, role, description,cn)
-            r.set('exposerID', exposerID)
-            r.set('ccf_publish_url', ccf_publish_url)
-            r.set('ccf_api_onboarding_url', ccf_api_onboarding_url)
-            print("exposer ID: {}".format(exposerID))
+        if 'providerID' not in demo_values:
+            providerID, ccf_publish_url, ccf_api_onboarding_url = register_exposer_to_capif(capif_ip, capif_port, username, password, role, description,cn)
+            demo_values['providerID'] = providerID
+            demo_values['ccf_publish_url']= ccf_publish_url
+            demo_values['ccf_api_onboarding_url']= ccf_api_onboarding_url
+            print("provider ID: {}".format(providerID))
     except Exception as e:
         status_code = e.args[0]
         if status_code == 409:
@@ -270,12 +206,9 @@ if __name__ == '__main__':
 
     #Second, we need get auth, in this case create cert and private key file
     try:
-<<<<<<< Updated upstream
-        get_capif_auth(capif_ip, capif_port, username, password, role)
-=======
-        access_token = get_capif_auth(capif_ip, capif_port, username, password)
-        r.set('access_token', access_token)
->>>>>>> Stashed changes
+        if 'capif_access_token_exposer' not in demo_values and 'providerID' in demo_values:
+            access_token = get_capif_auth(capif_ip, capif_port, username, password)
+            demo_values['capif_access_token_exposer'] = access_token
 
     except Exception as e:
         status_code = e.args[0]
@@ -288,34 +221,30 @@ if __name__ == '__main__':
 
     #Third publish service in CAPIF
     try:
-        if r.exists('ccf_api_onboarding_url') and r.exists('exposerID'):
-            ccf_publish_url = r.get('ccf_publish_url')
-            capif_access_token = r.get('capif_access_token_exposer')
-            ccf_api_onboarding_url = r.get('ccf_api_onboarding_url')
-<<<<<<< Updated upstream
-            api_prov_dom_id = register_api_provider_to_capif(capif_ip, ccf_api_onboarding_url)
-    
-            print("API provider domain Id: {}".format(api_prov_dom_id))
-=======
-            access_token = r.get("access_token")
-            response = register_api_provider_to_capif(capif_ip, ccf_api_onboarding_url, access_token)
-    
+        if 'ccf_api_onboarding_url' in demo_values and 'providerID' in demo_values and "capif_access_token_exposer" in demo_values:
+
+            ccf_publish_url = demo_values['ccf_publish_url']
+            capif_access_token = demo_values['capif_access_token_exposer']
+            ccf_api_onboarding_url = demo_values['ccf_api_onboarding_url']
+
+            response = register_api_provider_to_capif(capif_ip, ccf_api_onboarding_url, capif_access_token)
+
             for api_prov_func in response["apiProvFuncs"]:
                 if api_prov_func["apiProvFuncRole"] == "AEF":
-                    r.set("aef_id",  api_prov_func["apiProvFuncId"])
+                    demo_values["aef_id"] = api_prov_func["apiProvFuncId"]
                 elif api_prov_func["apiProvFuncRole"] == "APF":
-                    r.set("apf_id",  api_prov_func["apiProvFuncId"])
+                    demo_values["apf_id"] = api_prov_func["apiProvFuncId"]
+
             api_prov_dom_id = response["apiProvDomId"]
             print(colored(f"API provider domain Id: {api_prov_dom_id}","yellow"))
 
->>>>>>> Stashed changes
     except Exception as e:
         status_code = e.args[0]
         if status_code == 401:
             message = e.args[0]
             if str(message).find("Token has expired") != -1:
                 capif_access_token = get_capif_auth(capif_ip, capif_port, username, password)
-                r.set('capif_access_token_exposer', capif_access_token)
+                demo_values['capif_access_token_exposer'] = capif_access_token
                 print("New Capif Token: {}".format(capif_access_token))
                 print("Run the script again to publish a Service API")
             elif str(message).find("Exposer not existing") != -1:
@@ -326,3 +255,6 @@ if __name__ == '__main__':
             print("API provider domain already registered.")
         else:
             print(e)
+
+    with open('demo_values.json', 'a') as outfile:
+        json.dump(demo_values, outfile)

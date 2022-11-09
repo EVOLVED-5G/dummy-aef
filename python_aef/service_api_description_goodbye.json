@@ -1,18 +1,18 @@
 
 {
-    "apiName": "dummy-aef",
+    "apiName": "dummy-aef-goodbye",
     "aefProfiles": [
       {
-        "aefId": "ec2b554166ca9c7b6c75250956f302",
+        "aefId": "",
         "versions": [
           {
             "apiVersion": "v1",
             "expiry": "2021-11-30T10:32:02.004Z",
             "resources": [
               {
-                "resourceName": "hello-endpoint",
+                "resourceName": "goodbye-endpoint",
                 "commType": "REQUEST_RESPONSE",
-                "uri": "/hello",
+                "uri": "/goodbye",
                 "custOpName": "string",
                 "operations": [
                   "POST"
@@ -34,17 +34,12 @@
         ],
         "protocol": "HTTP_1_1",
         "dataFormat": "JSON",
-        "securityMethods": ["Oauth", "PSK"],
+        "securityMethods": ["Oauth"],
         "interfaceDescriptions": [
           {
             "ipv4Addr": "python-aef",
-            "port": 8086,
+            "port": 8087,
             "securityMethods": ["Oauth"]
-          },
-          {
-            "ipv4Addr": "python-aef",
-            "port": 8085,
-            "securityMethods": ["PSK"]
           }
         ]
       }
