@@ -25,7 +25,7 @@ $CHALLENGE
 $COMPANY
 __EOF__
 
-echo '172.17.0.1      capifcore' >> /etc/hosts
+#echo '172.17.0.1      capifcore' >> /etc/hosts
 
 curl  --connect-timeout 5 \
     --max-time 10 \

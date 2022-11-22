@@ -28,6 +28,7 @@ services:
       - redis_aef
     extra_hosts:
       - host.docker.internal:host-gateway
+      - capifcore:host-gateway
   capif_callback_aef:
     build:
       context: ./capif_callback_aef
