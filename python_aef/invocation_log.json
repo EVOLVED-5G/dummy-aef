@@ -1,0 +1,32 @@
+{
+  "aefId": "9b9b6f27c703530f304d3edc6ba154",
+  "apiInvokerId": "2b40404532c60c36d190f693c8729f",
+  "logs": [
+    {
+      "apiId": "c11ca466d3b1ba03eadbdb8bee7478",
+      "apiName": "dummy-aef",
+      "apiVersion": "v1",
+      "resourceName": "MONITORING_SUBSCRIPTION_SINGLE",
+      "uri": "http://192.168.1.7:8888/nef/api/v1/3gpp-monitoring-event/myNetApp/subscriptions/4",
+      "protocol": "HTTP_1_1",
+      "operation": "POST",
+      "result": "201",
+      "invocationLatency": 0,
+      "invocationTime": "2022-11-24T12:20:00+00:00",
+      "inputParameters": "a",
+      "outputParameters": "b",
+      "srcInterface": {
+        "ipv4Addr": "192.168.1.8",
+        "port": 4200,
+        "securityMethods": ["OAuth","PSK"]
+      },
+      "destInterface": {
+        "ipv4Addr": "192.168.1.7",
+        "port": 8888,
+        "securityMethods": ["OAuth"]
+      },
+      "fwdInterface": "fwdInterface"
+    }
+  ],
+  "supportedFeatures": "fffffff"
+}

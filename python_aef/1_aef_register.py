@@ -201,6 +201,7 @@ if __name__ == '__main__':
             ccf_api_onboarding_url = r.get('ccf_api_onboarding_url')
             aef_cert = r.get("aef_cert")
             api_prov_dom_id = register_api_provider_to_capif(capif_ip, ccf_api_onboarding_url, aef_cert)
+            r.set('api_prov_dom_id', api_prov_dom_id)
     
             print(colored(f"API provider domain Id: {api_prov_dom_id}","yellow"))
     except Exception as e:
