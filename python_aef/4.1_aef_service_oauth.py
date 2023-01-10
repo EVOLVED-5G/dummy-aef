@@ -11,24 +11,28 @@ app = Flask(__name__)
 
 jwt_flask = JWTManager(app)
 
-hostname='capifcore'
-port=443
+# hostname='capifcore'
+# port=443
 
 
+# context = ssl.create_default_context()
+# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# ssl_sock = context.wrap_socket(s, server_hostname=hostname)
+# ssl_sock.connect((hostname, port))
+# ssl_sock.close()
 
-context = ssl.create_default_context()
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-ssl_sock = context.wrap_socket(s, server_hostname=hostname)
-ssl_sock.connect((hostname, port))
-ssl_sock.close()
+## problem with get server certificate
+#cert = ssl.get_server_certificate((hostname, port))
+# print(cert)
 
-cert = ssl.get_server_certificate((hostname, port))
+with open("cert_server.pem", "rb") as cert_file:
+            cert= cert_file.read()
 
 crtObj = crypto.load_certificate(crypto.FILETYPE_PEM, cert)
 pubKeyObject = crtObj.get_pubkey()
 pubKeyString = crypto.dump_publickey(crypto.FILETYPE_PEM,pubKeyObject)
 
-#print ("%s" % pubKeyString)
+print ("%s" % pubKeyString)
 app.config['JWT_ALGORITHM'] = 'RS256'
 app.config['JWT_PUBLIC_KEY'] = pubKeyString
 
