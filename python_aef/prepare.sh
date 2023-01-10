@@ -33,6 +33,6 @@ curl  --connect-timeout 5 \
     --retry-max-time 40 \
     --request GET "http://$CAPIF_HOSTNAME:$CAPIF_PORT/ca-root" 2>/dev/null | jq -r '.certificate' -j > ca.crt
 
-openssl s_client -connect capif.apps.ocp-epg.hi.inet:443  | openssl x509 -text >> ./cert_server.pem
+openssl s_client -connect $CAPIF_HOSTNAME:443  | openssl x509 -text >> ./cert_server.pem
 
 tail -f /dev/null
