@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 import requests
 import json
 import ssl
+import os
 
 from werkzeug import serving
 
@@ -11,17 +12,17 @@ app = Flask(__name__)
 with open('demo_values.json', 'r') as demo_file:
         demo_values = json.load(demo_file)
 
+capif_ip = os.getenv('CAPIF_HOSTNAME')
 
 @app.route("/check-authentication", methods=["POST"])
 def check_auth():
-    print("He llegado al check sin hacer la verificación")
     invoker_id = request.get_json()
     invoker_id = invoker_id["apiInvokerId"]
-    print(invoker_id)
+
     # supported_feature = request.json['supportedFeatures']
 
 
-    url = "https://capifcore/capif-security/v1/trustedInvokers/{}".format(invoker_id)
+    url = "https://{}/capif-security/v1/trustedInvokers/{}".format(capif_ip, invoker_id)
     headers = {
         'Content-Type': 'application/json'
     }
