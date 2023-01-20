@@ -57,7 +57,6 @@ def get_capif_auth(capif_ip, capif_port, username, password, role):
     payload = dict()
     payload['username'] = username
     payload['password'] = password
-    payload['role'] = role
 
     headers = {
         'Content-Type': 'application/json'
@@ -74,12 +73,6 @@ def get_capif_auth(capif_ip, capif_port, username, password, role):
 
         response.raise_for_status()
         response_payload = json.loads(response.text)
-        certification_file = open('exposer.crt', 'wb+')
-        private_key_file = open("private.key", 'wb+')
-        certification_file.write(bytes(response_payload['cert'], 'utf-8'))
-        private_key_file.write(bytes(response_payload['private_key'], 'utf-8'))
-        certification_file.close()
-        private_key_file.close()
 
         print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
         print(colored(f"Response to: {response.url}","green"))
@@ -88,21 +81,22 @@ def get_capif_auth(capif_ip, capif_port, username, password, role):
         print(colored(f"Response Status code: {response.status_code}","green"))
         print(colored("Get AUTH Success. Created private key and cert file", "green"))
         print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
-        return response_payload['cert']
+        return response_payload['access_token']
     except requests.exceptions.HTTPError as err:
         raise Exception(err.response.text, err.response.status_code)
 
-def register_api_provider_to_capif(capif_ip, ccf_url, cert):
+def register_api_provider_to_capif(capif_ip, ccf_url, pr_access_token):
 
     print(colored("Registering api provider to CAPIF","yellow"))
 
     url = 'https://{}/{}'.format(capif_ip, ccf_url)
-    #payload = open('api_provider_domain.json', 'rb')
+    # payload = open('api_provider_domain.json', 'rb')
     with open('api_provider_domain.json') as json_file:
         payload = json.load(json_file)
-        payload["regSec"]=cert
+        # payload["regSec"]=cert
 
     headers = {
+        'Authorization': 'Bearer ' + pr_access_token,
         'Content-Type': 'application/json'
     }
 
@@ -113,7 +107,8 @@ def register_api_provider_to_capif(capif_ip, ccf_url, cert):
         print(colored(f"Request Headers: {headers}", "blue"))
         print(colored(f"''''''''''REQUEST'''''''''''''''''", "blue"))
 
-        response = requests.request("POST", url, headers=headers, data=json.dumps(payload), cert=('exposer.crt', 'private.key'), verify='ca.crt')
+        response = requests.request("POST", url, headers=headers, data=json.dumps(payload), cert=('domain.crt', 'domain.key'), verify='ca.crt')
+        # response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
         response.raise_for_status()
         response_payload = json.loads(response.text)
 
@@ -181,8 +176,8 @@ if __name__ == '__main__':
 
     #Second, we need get auth, in this case create cert and private key file
     try:
-        cert = get_capif_auth(capif_ip, capif_port, username, password, role)
-        r.set('aef_cert', cert)
+        provider_access_token = get_capif_auth(capif_ip, capif_port, username, password, role)
+        r.set('provider_access_token', provider_access_token)
 
     except Exception as e:
         status_code = e.args[0]
@@ -199,8 +194,8 @@ if __name__ == '__main__':
             ccf_publish_url = r.get('ccf_publish_url')
             capif_access_token = r.get('capif_access_token_exposer')
             ccf_api_onboarding_url = r.get('ccf_api_onboarding_url')
-            aef_cert = r.get("aef_cert")
-            api_prov_dom_id = register_api_provider_to_capif(capif_ip, ccf_api_onboarding_url, aef_cert)
+            provider_access_token = r.get("provider_access_token")
+            api_prov_dom_id = register_api_provider_to_capif(capif_ip, ccf_api_onboarding_url, provider_access_token)
             r.set('api_prov_dom_id', api_prov_dom_id)
     
             print(colored(f"API provider domain Id: {api_prov_dom_id}","yellow"))
