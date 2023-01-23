@@ -27,7 +27,7 @@ services:
     networks:
       - demo-network
     ports:
-      - 8086:8080
+      - 8087:8080
     volumes:
       - ./capif_callback_server:/usr/src/app
     environment:

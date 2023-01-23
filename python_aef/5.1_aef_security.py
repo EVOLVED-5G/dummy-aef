@@ -32,11 +32,14 @@ def check_auth():
     response_payload = json.loads(response.text)
     print(response_payload)
     for security_context in response_payload["securityInfo"]:
-        if security_context["aefId"] == demo_values["aef_id"] and security_context["selSecurityMethod"] == "PKI":
-            with open("./certs/myCA.pem", "rb") as ca_file:
-                ca_service = ca_file.read()
-                my_ca_file = ca_service.decode('utf-8')
-            return jsonify(message="Validated User", ca_service=my_ca_file), 201
+        if security_context["aefId"] == demo_values["aef_id"] and 'selSecurityMethod' in security_context:
+            if security_context["selSecurityMethod"] == "PKI":
+                with open("./certs/myCA.pem", "rb") as ca_file:
+                    ca_service = ca_file.read()
+                    my_ca_file = ca_service.decode('utf-8')
+                return jsonify(message="Validated User", ca_service=my_ca_file), 201
+            elif security_context["selSecurityMethod"] == "Oauth":
+                return jsonify(message="Validated User", ca_service="JWT Token"), 201
     return jsonify(message="Not auth user or invalid security method"), 400
 
 
@@ -61,4 +64,4 @@ context.load_cert_chain("./certs/server-cert.pem", "./certs/server-key.pem")
 
 
 if __name__ == '__main__':
-   serving.run_simple("0.0.0.0", 8086, app, ssl_context=context)
+   serving.run_simple("0.0.0.0", 8087, app, ssl_context=context)
