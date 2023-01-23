@@ -138,7 +138,6 @@ def register_api_provider_to_capif(capif_ip, ccf_url, access_token):
         print(colored(f"Request Headers: {headers}", "blue"))
         print(colored(f"''''''''''REQUEST'''''''''''''''''", "blue"))
 
-
         response = requests.request("POST", url, headers=headers, data=payload, verify='ca.crt')
         response.raise_for_status()
         response_payload = json.loads(response.text)
@@ -151,7 +150,6 @@ def register_api_provider_to_capif(capif_ip, ccf_url, access_token):
         print(colored("Success, registered api provider domain to CAPIF","green"))
         print(colored("''''''''''RESPONSE'''''''''''''''''","green"))
 
-
         for func_provile in response_payload["apiProvFuncs"]:
             print(func_provile['regInfo']['apiProvCert'])
             certification_file = open(func_provile["apiProvFuncRole"]+'_dummy.crt', 'wb')
@@ -159,6 +157,7 @@ def register_api_provider_to_capif(capif_ip, ccf_url, access_token):
             certification_file.close()
 
         return response_payload
+
     except requests.exceptions.HTTPError as err:
         message = json.loads(err.response.text)
         status = err.response.status_code
@@ -177,12 +176,11 @@ if __name__ == '__main__':
     role = config.get("credentials", "exposer_role")
     description = config.get("credentials", "exposer_description")
     cn = config.get("credentials", "exposer_cn")
-    
+
     # capif_ip = config.get("credentials", "capif_ip")
     # capif_port = config.get("credentials", "capif_port")
     capif_ip = os.getenv('CAPIF_HOSTNAME')
     capif_port = os.getenv('CAPIF_PORT')
-
 
     if os.path.exists("demo_values.json"):
         os.remove("demo_values.json")
@@ -237,7 +235,6 @@ if __name__ == '__main__':
 
             api_prov_dom_id = response["apiProvDomId"]
             print(colored(f"API provider domain Id: {api_prov_dom_id}","yellow"))
-
     except Exception as e:
         status_code = e.args[0]
         if status_code == 401:

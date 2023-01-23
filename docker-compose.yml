@@ -13,7 +13,7 @@ services:
     volumes:
       - ./python_aef:/usr/src/app
     environment:
-      - REDIS_HOST=redis
+      - REDIS_HOST=redis_aef
       - REDIS_PORT=6379
       - REQUESTS_CA_BUNDLE=/usr/src/app/ca.crt
       - SSL_CERT_FILE=/usr/src/app/ca.crt
@@ -21,17 +21,18 @@ services:
       - CAPIF_PORT=8080
     extra_hosts:
       - host.docker.internal:host-gateway
-  capif_callback_server:
+      - capifcore:host-gateway
+  capif_callback_aef:
     build:
-      context: ./capif_callback_server
+      context: ./capif_callback_aef
     networks:
       - demo-network
     ports:
       - 8087:8080
     volumes:
-      - ./capif_callback_server:/usr/src/app
+      - ./capif_callback_aef:/usr/src/app
     environment:
-      - REDIS_HOST=redis
+      - REDIS_HOST=redis_aef
       - REDIS_PORT=6379
     extra_hosts:
       - host.docker.internal:host-gateway

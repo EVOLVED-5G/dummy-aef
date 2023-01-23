@@ -50,6 +50,7 @@ def publish_service_api_to_capif(capif_ip, apf_id, aef_id):
         status = err.response.status_code
         raise Exception(message, status)
 
+
 if __name__ == '__main__':
 
     config = configparser.ConfigParser()
