@@ -38,8 +38,6 @@ def check_auth():
                     ca_service = ca_file.read()
                     my_ca_file = ca_service.decode('utf-8')
                 return jsonify(message="Validated User", ca_service=my_ca_file), 201
-            elif security_context["selSecurityMethod"] == "Oauth":
-                return jsonify(message="Validated User", ca_service="JWT Token"), 201
     return jsonify(message="Not auth user or invalid security method"), 400
 
 

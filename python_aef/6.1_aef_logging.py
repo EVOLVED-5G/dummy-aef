@@ -52,6 +52,15 @@ if __name__ == '__main__':
     #     decode_responses=True,
     # )
 
+    print(colored("''''''''''CAUTION'''''''''''''''''", "yellow"))
+    print(colored(f"Edit invocation_log.json file first ...", "yellow"))
+    print(colored(f"Fill aefId, apiInvokerId, and apiId with the appropriate values ...", "yellow"))
+    print(colored(f"If you have not done it, press \"exit\", else press any key", "yellow"))
+    a = input()
+    if a == 'exit':
+        exit(1)
+    print(colored(f"''''''''''REQUEST'''''''''''''''''", "blue"))
+
     config = configparser.ConfigParser()
     config.read('credentials.properties')
 
