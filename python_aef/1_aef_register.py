@@ -19,7 +19,8 @@ def create_csr(name):
 
         # Generate CSR
         req = X509Req()
-        req.get_subject().CN = config.get("credentials", "exposer_cn")+name
+        # req.get_subject().CN = config.get("credentials", "exposer_cn")+name
+        req.get_subject().CN = name
         req.get_subject().O = 'Telefonica I+D'
         req.get_subject().C = 'ES'
         req.set_pubkey(key)
