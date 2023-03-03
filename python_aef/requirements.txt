@@ -6,3 +6,4 @@ Flask == 2.0.3
 termcolor
 pyOpenSSL
 flask_jwt_extended
+evolved5g

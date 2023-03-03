@@ -9,7 +9,7 @@ from werkzeug import serving
 
 app = Flask(__name__)
 
-with open('demo_values.json', 'r') as demo_file:
+with open('capif_provider_details.json', 'r') as demo_file:
         demo_values = json.load(demo_file)
 
 capif_ip = os.getenv('CAPIF_HOSTNAME')
@@ -27,12 +27,12 @@ def check_auth():
         'Content-Type': 'application/json'
     }
 
-    response = requests.request("GET", url, headers=headers, cert=('APF_dummy.crt', 'APF_private_key.key'), verify="ca.crt")
+    response = requests.request("GET", url, headers=headers, cert=('dummy_aef.crt', 'AEF_private_key.key'), verify="ca.crt")
     response.raise_for_status()
     response_payload = json.loads(response.text)
     print(response_payload)
     for security_context in response_payload["securityInfo"]:
-        if security_context["aefId"] == demo_values["aef_id"] and 'selSecurityMethod' in security_context:
+        if security_context["aefId"] == demo_values["AEF_api_prov_func_id"] and 'selSecurityMethod' in security_context:
             if security_context["selSecurityMethod"] == "PKI":
                 with open("./certs/myCA.pem", "rb") as ca_file:
                     ca_service = ca_file.read()

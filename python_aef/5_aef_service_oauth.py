@@ -25,7 +25,7 @@ jwt_flask = JWTManager(app)
 #cert = ssl.get_server_certificate((hostname, port))
 # print(cert)
 
-with open("cert_server.pem", "rb") as cert_file:
+with open("capif_cert_server.pem", "rb") as cert_file:
             cert= cert_file.read()
 
 crtObj = crypto.load_certificate(crypto.FILETYPE_PEM, cert)
