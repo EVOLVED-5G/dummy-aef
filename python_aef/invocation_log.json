@@ -1,0 +1,32 @@
+{
+  "aefId": "6249d92e4ba8254305eff57eb3374f",
+  "apiInvokerId": "18960ca52f2f7ade5ec31d54eb4b93",
+  "logs": [
+    {
+      "apiId": "7246c0912a327fc12f43c57d41454d",
+      "apiName": "dummy-aef-hello",
+      "apiVersion": "v1",
+      "resourceName": "hello-endpoint",
+      "uri": "/hello",
+      "protocol": "HTTP_1_1",
+      "operation": "POST",
+      "result": "201",
+      "invocationLatency": 0,
+      "invocationTime": "2022-11-24T12:20:00+00:00",
+      "inputParameters": "a",
+      "outputParameters": "b",
+      "srcInterface": {
+        "ipv4Addr": "python-aef",
+        "port": 8088,
+        "securityMethods": ["PKI"]
+      },
+      "destInterface": {
+        "ipv4Addr": "python-netapp",
+        "port": 8087,
+        "securityMethods": ["PKI"]
+      },
+      "fwdInterface": "fwdInterface"
+    }
+  ],
+  "supportedFeatures": "fffffff"
+}

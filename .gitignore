@@ -9,4 +9,7 @@ __pycache__/
 *.key
 *.csr
 *.crt
+*.pem
 *./valid_ca/*
+demo_values.json
+capif_provider_details.json

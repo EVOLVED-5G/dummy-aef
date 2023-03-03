@@ -1,17 +1,28 @@
 {
-    "regSec": "string_2",
     "apiProvFuncs": [
       {
-        "apiProvFuncId": "string_2",
         "regInfo": {
-          "apiProvPubKey": "string",
-          "apiProvCert": "string"
+          "apiProvPubKey": ""
         },
         "apiProvFuncRole": "AEF",
-        "apiProvFuncInfo": "string"
+        "apiProvFuncInfo": "dummy_aef"
+      },
+      {
+        "regInfo": {
+          "apiProvPubKey": ""
+        },
+        "apiProvFuncRole": "APF",
+        "apiProvFuncInfo": "dummy_apf"
+      },
+      {
+        "regInfo": {
+          "apiProvPubKey": ""
+        },
+        "apiProvFuncRole": "AMF",
+        "apiProvFuncInfo": "dummy_amf"
       }
     ],
-    "apiProvDomInfo": "string",
+    "apiProvDomInfo": "This is provider",
     "suppFeat": "fff",
     "failReason": "string"
-  }
+}

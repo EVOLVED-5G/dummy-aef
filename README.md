@@ -15,7 +15,7 @@
 |                                     | Provider Management API | ✅      |
 |                                     | Publish Service API     | ✅      |
 | Communication with dummy_netapp     | -                       | ✅      |
-| Use of CAPIF SDK libraries          | -                       | ❌      |
+| Use of CAPIF SDK libraries          | -                       | ✅      |
 | Callback server for CAPIF responses | -                       | ✅      |
 | TLS Communication with CAPIF        | -                       | ✅      |
 
@@ -50,11 +50,22 @@ Otherwise, add the IP of their host (e.g. "192.168.X.X").
 
 # Inside the container
 # Test NetApp with CAPIF and dummy_aef
-python3 1_aef_register.py
-python3 2_aef_publish.py
-python3 2_aef_security.py
-python3 2_aef_service.py
+python3 1_provider_reg_onboard_pub.py
+python3 5_aef_service_oauth.py
+python3 6_aef_security.py
+python3 7_aef_service_pki.py
+python3 8_aef_logging.py
+python3 9_aef_audit.py
 
 # Outside container, for clean-up
-sudo rm ./python_aef/*.crt ./python_aef/*.key
+(
+ sudo rm ./python_aef/AEF_*
+ sudo rm ./python_aef/APF_*
+ sudo rm ./python_aef/AMF_*
+ sudo rm ./python_aef/ca.crt
+ sudo rm ./python_aef/domain.*
+ sudo rm ./python_aef/cert_server.pem
+ sudo rm ./python_aef/dummy*
+ sudo rm ./python_aef/capif_cert_server.pem
+)
 ```
