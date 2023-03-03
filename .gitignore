@@ -12,3 +12,4 @@ __pycache__/
 *.pem
 *./valid_ca/*
 demo_values.json
+capif_provider_details.json
