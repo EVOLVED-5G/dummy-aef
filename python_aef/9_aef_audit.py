@@ -14,7 +14,7 @@ def audit_logs_from_capif(capif_ip, ccf_url, query_params):
     print(colored("Audit Logs from CAPIF", "yellow"))
 
     url = 'https://{}/{}'.format(capif_ip, ccf_url)
-    payload = open('invocation_log.json', 'rb')
+    # payload = open('invocation_log.json', 'rb')
 
     headers = {
         'Content-Type': 'application/json'
@@ -26,7 +26,7 @@ def audit_logs_from_capif(capif_ip, ccf_url, query_params):
         print(colored(f"Request Headers: {headers}", "blue"))
         print(colored(f"''''''''''REQUEST'''''''''''''''''", "blue"))
 
-        response = requests.request("GET", url, params=params, cert=('AEF_dummy.crt', 'AEF_private_key.key'), verify='ca.crt')
+        response = requests.request("GET", url, params=query_params, cert=('dummy_amf.crt', 'AMF_private_key.key'), verify='ca.crt')
         response.raise_for_status()
         response_payload = json.loads(response.text)
 
@@ -46,37 +46,22 @@ def audit_logs_from_capif(capif_ip, ccf_url, query_params):
 
 if __name__ == '__main__':
 
-    # r = redis.Redis(
-    #     host=REDIS_HOST,
-    #     port=REDIS_PORT,
-    #     decode_responses=True,
-    # )
-
-    config = configparser.ConfigParser()
-    config.read('credentials.properties')
-
-    username = config.get("credentials", "exposer_username")
-    password = config.get("credentials", "exposer_password")
-    role = config.get("credentials", "exposer_role")
-    description = config.get("credentials", "exposer_description")
-    cn = config.get("credentials", "exposer_cn")
-
     capif_ip = os.getenv('CAPIF_HOSTNAME')
     capif_port = os.getenv('CAPIF_PORT')
 
-    api_prov_dom_id = None  # e.g. ad86d053cb8fcab17fb3d274889b5c
-    api_invoker_id = None   # e.g. 105c22ea5f8f983b4ebba594363fcd
+    api_prov_dom_id = "cc01b6325513375097c0b2862794dc"  # e.g. ad86d053cb8fcab17fb3d274889b5c
+    api_invoker_id = "78ad74e229e9eab028c526a4901c85"   # e.g. 105c22ea5f8f983b4ebba594363fcd
     time_start = None       # e.g. 2022-10-24T00:00:00.000Z
     time_end = None         # e.g. 2022-10-25T00:00:00.000Z
     api_id = None           # e.g. f7ba97e8f08a7f53365ba81be60a0c
     api_name = None         # e.g. dummy-aef
     api_version = None      # e.g. v1
     result = None           # e.g. 201
-    resource_name = None    # e.g. MONITORING_SUBSCRIPTION_SINGLE
+    resource_name = None    # e.g. hello-endpoint
     protocol = None         # e.g. HTTP_1_1 or HTTP_2
     operation = None        # e.g. POST
-    dest_interface = None   # e.g. '{"ipv4Addr": "192.168.1.7","port": 8888,"securityMethods": ["OAuth"]}'
-    src_interface = None    # e.g. '{"ipv4Addr": "192.168.1.8","port": 4200,"securityMethods": ["OAuth", "PSK"]}'
+    dest_interface = None   # e.g. '{"ipv4Addr": "python-netapp","port": 8087,"securityMethods": ["PKI"]}'
+    src_interface = None    # e.g. '{"ipv4Addr": "python-aef","port": 8088,"securityMethods": ["PKI"]}'
 
     params = dict()
     if api_prov_dom_id is not None:
@@ -119,6 +104,6 @@ if __name__ == '__main__':
         params.update({'src-interface': src_interface})
 
     print(params)
-    ccf_log_url = "/logs/v1/apiInvocationLogs"
+    ccf_log_url = "logs/v1/apiInvocationLogs"
     log_res = audit_logs_from_capif(capif_ip, ccf_log_url, params)
     print(colored(f"Log response: {log_res}", "yellow"))

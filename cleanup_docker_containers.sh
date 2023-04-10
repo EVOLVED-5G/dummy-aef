@@ -12,4 +12,5 @@ docker-compose down --rmi all --remove-orphans
  sudo rm ./python_aef/cert_server.pem
  sudo rm ./python_aef/dummy*
  sudo rm ./python_aef/capif_cert_server.pem
+ sudo rm ./python_aef/capif_provider_details.json
 )
