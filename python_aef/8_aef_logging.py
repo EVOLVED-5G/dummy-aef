@@ -59,7 +59,7 @@ if __name__ == '__main__':
     capif_port = os.getenv('CAPIF_PORT')
 
     try:
-        aef_id = "cc01b6325513375097c0b2862794dc"
+        aef_id = "aec2b52e89a441c6eeabc3369ade6c"
         ccf_log_url = "api-invocation-logs/v1/" + str(aef_id) + "/logs"
         print(colored(f"ccf_log_url: {ccf_log_url}", "yellow"))
         log_res = post_log_to_capif(capif_ip, ccf_log_url)

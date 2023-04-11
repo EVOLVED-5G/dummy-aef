@@ -49,8 +49,8 @@ if __name__ == '__main__':
     capif_ip = os.getenv('CAPIF_HOSTNAME')
     capif_port = os.getenv('CAPIF_PORT')
 
-    api_prov_dom_id = "cc01b6325513375097c0b2862794dc"  # e.g. ad86d053cb8fcab17fb3d274889b5c
-    api_invoker_id = "78ad74e229e9eab028c526a4901c85"   # e.g. 105c22ea5f8f983b4ebba594363fcd
+    api_prov_dom_id = "aec2b52e89a441c6eeabc3369ade6c"  # e.g. ad86d053cb8fcab17fb3d274889b5c
+    api_invoker_id = "6ab4944d487247cc2f6b643c168d8d"   # e.g. 105c22ea5f8f983b4ebba594363fcd
     time_start = None       # e.g. 2022-10-24T00:00:00.000Z
     time_end = None         # e.g. 2022-10-25T00:00:00.000Z
     api_id = None           # e.g. f7ba97e8f08a7f53365ba81be60a0c
@@ -59,9 +59,9 @@ if __name__ == '__main__':
     result = None           # e.g. 201
     resource_name = None    # e.g. hello-endpoint
     protocol = None         # e.g. HTTP_1_1 or HTTP_2
-    operation = None        # e.g. POST
-    dest_interface = None   # e.g. '{"ipv4Addr": "python-netapp","port": 8087,"securityMethods": ["PKI"]}'
-    src_interface = None    # e.g. '{"ipv4Addr": "python-aef","port": 8088,"securityMethods": ["PKI"]}'
+    operation = 'GET'        # e.g. POST
+    dest_interface = None   # e.g. '{"ipv4_addr": "python-netapp","port": 8087,"security_methods": ["PKI"]}'
+    src_interface = None    # e.g. '{"ipv4_addr": "python-aef","port": 8088,"security_methods": ["PKI"]}'
 
     params = dict()
     if api_prov_dom_id is not None:

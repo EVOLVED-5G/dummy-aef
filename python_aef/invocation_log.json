@@ -1,18 +1,18 @@
 {
-  "aefId": "cc01b6325513375097c0b2862794dc",
-  "apiInvokerId": "78ad74e229e9eab028c526a4901c85",
+  "aefId": "aec2b52e89a441c6eeabc3369ade6c",
+  "apiInvokerId": "6ab4944d487247cc2f6b643c168d8d",
   "logs": [
     {
-      "apiId": "aa04f1b75db1a8d70f1d00fffdc459",
+      "apiId": "6f00e6ba77fde52c1fc5831292d698",
       "apiName": "dummy-aef-hello",
       "apiVersion": "v1",
       "resourceName": "hello-endpoint",
       "uri": "/hello",
       "protocol": "HTTP_1_1",
-      "operation": "GET",
-      "result": "201",
+      "operation": "POST",
+      "result": "401",
       "invocationLatency": 0,
-      "invocationTime": "2023-04-10T09:25:00Z",
+      "invocationTime": "2023-04-10T13:25:00Z",
       "inputParameters": "a",
       "outputParameters": "b",
       "srcInterface": {
